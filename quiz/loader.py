@@ -20,7 +20,7 @@ def load_questions():
     with open(QUESTIONS_FILE, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
 
-    if "quiz" not in data or "questions" not in data["quiz"]:
-        raise ValueError("Invalid YAML: missing 'quiz' or 'questions' key")
+    if "quiz" not in data:
+        raise ValueError("Invalid YAML: missing 'quiz' key")
 
-    return data["quiz"]["questions"]
+    return data["quiz"]

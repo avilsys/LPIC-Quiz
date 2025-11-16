@@ -19,14 +19,16 @@ def run_quiz(num_questions=None):
     :param num_questions: maximum number of questions to ask (default: all)
     """
     # Load and randomize questions
-    questions = load_questions()
+    quiz_data = load_questions()
+    title = quiz_data["metadata"].get("title", "Quiz")
+    questions = quiz_data["questions"]
     random.shuffle(questions)
 
     # Limit number of questions if requested
     if num_questions is not None:
         questions = questions[:min(num_questions, len(questions))]
 
-    print("=== LPIC Quiz ===")
+    print(f"=== {title} ===")
     print("Type 'exit' to quit.\n")
 
     session_start = time.time()
