@@ -1,0 +1,52 @@
+quiz:
+  metadata:
+    title: "LPIC-2 Revision Quiz"
+    version: "1.0"
+
+  questions:
+    - id: 001
+      question: "Which command displays all kernel modules currently loaded on the system?"
+      choices:
+        - "lsmod"
+        - "uname -r"
+        - "modinfo"
+        - "modprobe -l"
+      correct:
+        - "lsmod"
+    - id: 002
+      question: "On a SysVInit system, which runlevel(s) provide network services?"
+      choices:
+        - "5"
+        - "6"
+        - "3"
+        - "2"
+      correct:
+        - "5"
+        - "3"
+    - id: 003
+      question: "Which of the following are filesystems commonly used for optical media (CD/DVD)?"
+      choices:
+        - "ISO"
+        - "UDF"
+        - "ISO 9660"
+        - "FAT32"
+      correct:
+        - "UDF"
+        - "ISO 9660"
+    - id: 004
+      question: "What command is used to send messages to all users currently logged in?"
+      correct:
+        - "wall"
+    - id: 005
+      question: "What command is used to install the GRUB bootloader onto the Master Boot Record (MBR)"
+      choices:
+        - "grub-install-mbr"
+        - "grub-install"
+        - "install-grub"
+        - "grub-mkconfig"
+      correct:
+        - "grub-install"
+    - id: 006
+      question: "fill the blank: mount -t iso9660 -o ____ image.iso /mnt/iso"
+      correct:
+        - "loop"
