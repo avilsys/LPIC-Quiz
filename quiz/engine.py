@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-engine.py — Quiz engine
+engine.py — Quiz engine (MCQ + Fill-in-the-blank)
 """
 
 import random
@@ -40,31 +40,48 @@ def run_quiz(num_questions=None):
 
     for q in questions:
         total += 1
-        question = q["question"]
-        choices = q["choices"]
+        question_text = q["question"]
         correct_answers = q["correct"]
+        choices = q.get("choices")  # MCQ only if present
 
-        print(f"\nQuestion {total}: {question}\n")
-        for i, c in enumerate(choices, 1):
-            print(f"  {i}. {c}")
+        print(f"\nQuestion {total}: {question_text}\n")
 
-        try:
-            raw_input = input("\nAnswer (e.g., 1 3): ").strip()
-        except (KeyboardInterrupt, EOFError):
-            print("\nQuiz interrupted.")
-            break
+        # MCQ
+        if choices:
+            for i, c in enumerate(choices, 1):
+                print(f"  {i}. {c}")
+            try:
+                raw_input_text = input("\nAnswer (e.g., 1 3): ").strip()
+            except (KeyboardInterrupt, EOFError):
+                print("\nQuiz interrupted.")
+                break
 
-        if raw_input.lower() == "exit":
-            print("Exiting quiz.")
-            break
+            if raw_input_text.lower() == "exit":
+                print("Exiting quiz.")
+                break
 
-        nums = parse_multi_answer(raw_input, len(choices))
-        if not nums:
-            print(format_colored(f"❌ Invalid answer: choose numbers between 1 and {len(choices)}.", "red"))
-            user_answers_text = []
+            nums = parse_multi_answer(raw_input_text, len(choices))
+            if not nums:
+                print(format_colored(f"❌ Invalid answer: choose numbers between 1 and {len(choices)}.", "red"))
+                user_answers_text = []
+            else:
+                user_answers_text = [choices[n - 1] for n in nums]
+
+        # Fill-in-the-blank
         else:
-            user_answers_text = [choices[n - 1] for n in nums]
+            try:
+                user_input_text = input("\nYour answer: ").strip()
+            except (KeyboardInterrupt, EOFError):
+                print("\nQuiz interrupted.")
+                break
 
+            if user_input_text.lower() == "exit":
+                print("Exiting quiz.")
+                break
+
+            user_answers_text = [user_input_text]
+
+        # Vérification
         normalized_correct = [normalize(a) for a in correct_answers]
         normalized_user = [normalize(a) for a in user_answers_text]
 
@@ -78,12 +95,12 @@ def run_quiz(num_questions=None):
             print(f"Correct answer(s): {', '.join(correct_answers)}")
 
             error_session.append({
-                "question": question,
+                "question": question_text,
                 "user_answer": user_answers_text,
                 "correct": correct_answers,
             })
 
-            log_error(question, user_answers_text, correct_answers)
+            log_error(question_text, user_answers_text, correct_answers)
 
     # Session summary
     duration_s = int(time.time() - session_start)
