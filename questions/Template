@@ -4,7 +4,7 @@ quiz:
     version: "version number"
 
   questions:
-    - id: 001
+    - id: 1
       category: "Question category (currently unused)"
       question: "Question"
       choices:
