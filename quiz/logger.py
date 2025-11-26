@@ -9,9 +9,9 @@ from datetime import datetime, timezone
 ERREURS_LOG = Path("errors.log")
 
 
-def log_error(question, user_answers, correct_answers):
+def log_error(question, user_answers, correct_answers, question_id):
     with open(ERREURS_LOG, "a", encoding="utf-8") as f:
         f.write(
             f"{datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z')} | "
-            f"Q='{question}' | Rép='{user_answers}' | Correct='{correct_answers}'\n"
+            f"id='{question_id}' | 'Q='{question}' | Rép='{user_answers}' | Correct='{correct_answers}'\n"
         )

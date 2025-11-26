@@ -49,6 +49,7 @@ def run_quiz(num_questions=None, question_id=None):
         question_text = q["question"]
         correct_answers = q["correct"]
         choices = q.get("choices")  # MCQ only if present
+        question_id = q.get("id")
 
         print(f"\nQuestion {total}: {question_text}\n")
 
@@ -103,12 +104,13 @@ def run_quiz(num_questions=None, question_id=None):
             print(f"Correct answer(s): {', '.join(correct_answers)}")
 
             error_session.append({
+                "id": question_id,
                 "question": question_text,
                 "user_answer": user_answers_text,
                 "correct": correct_answers,
             })
 
-            log_error(question_text, user_answers_text, correct_answers)
+            log_error(question_text, user_answers_text, correct_answers, question_id)
 
     # Session summary
     duration_s = int(time.time() - session_start)
@@ -122,6 +124,6 @@ def run_quiz(num_questions=None, question_id=None):
     if error_session:
         print("\nDetails of errors:")
         for e in error_session:
-            print(f"  - Q='{e['question']}' | Answer='{e['user_answer']}' | Correct='{e['correct']}'")
+            print(f"  - id='{e['id']}' | Q='{e['question']}' | Answer='{e['user_answer']}' | Correct='{e['correct']}'")
 
     print("\nAll errors have been logged to 'errors.log'.\n")
