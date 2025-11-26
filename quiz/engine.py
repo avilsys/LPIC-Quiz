@@ -88,6 +88,8 @@ def run_quiz(num_questions=None, question_id=None):
             user_answers_text = [user_input_text]
 
         # Vérification
+        if isinstance(correct_answers, str):
+            correct_answers = [correct_answers]
         normalized_correct = [normalize(a) for a in correct_answers]
         normalized_user = [normalize(a) for a in user_answers_text]
 
