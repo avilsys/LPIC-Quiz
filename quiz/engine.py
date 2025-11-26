@@ -12,7 +12,7 @@ from quiz.utils import normalize, parse_multi_answer, format_colored
 from quiz.logger import log_error
 
 
-def run_quiz(num_questions=None):
+def run_quiz(num_questions=None, question_id=None):
     """
     Run the quiz.
     
@@ -22,11 +22,17 @@ def run_quiz(num_questions=None):
     quiz_data = load_questions()
     title = quiz_data["metadata"].get("title", "Quiz")
     questions = quiz_data["questions"]
-    random.shuffle(questions)
 
-    # Limit number of questions if requested
-    if num_questions is not None:
-        questions = questions[:min(num_questions, len(questions))]
+    if question_id is not None:
+        questions = [q for q in questions if int(q.get("id")) == int(question_id)]
+        if not questions:
+            print(f"❌ No question found with ID '{question_id}'")
+            return
+    else:
+        random.shuffle(questions)
+        # Limit number of questions if requested
+        if num_questions is not None:
+            questions = questions[:min(num_questions, len(questions))]
 
     print(f"=== {title} ===")
     print("Type 'exit' to quit.\n")
